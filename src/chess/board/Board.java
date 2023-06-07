@@ -1,6 +1,8 @@
+package chess.board;
+
 public class Board {
 
-    static final int SIDE = 8;
+    public static final int SIDE = 8;
 
     public Board() {
         _board = new Tile[8][8];

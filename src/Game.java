@@ -1,3 +1,5 @@
+import chess.board.Board;
+import chess.board.PieceType;
 import chess.piece.*;
 
 public class Game {

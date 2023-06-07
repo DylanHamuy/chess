@@ -1,5 +1,7 @@
 package chess.piece;
 
+import chess.board.Board;
+
 public class Pawn extends Piece {
 
     @Override
@@ -8,7 +10,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean canMove() {
+    public boolean canMove(Board board) {
         return false;
     }
 

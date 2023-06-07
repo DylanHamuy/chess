@@ -1,3 +1,5 @@
+package chess.board;
+
 import chess.piece.Piece;
 
 public class Tile {

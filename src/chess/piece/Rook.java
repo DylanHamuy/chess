@@ -1,5 +1,7 @@
 package chess.piece;
 
+import chess.board.Board;
+
 public class Rook extends Piece {
     @Override
     public void move(int file, int rank) {
@@ -7,7 +9,9 @@ public class Rook extends Piece {
     }
 
     @Override
-    public boolean canMove() {
+    public boolean canMove(Board board) {
         return false;
     }
+
+
 }
