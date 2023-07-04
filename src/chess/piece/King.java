@@ -4,10 +4,10 @@ import chess.board.Board;
 
 public class King extends Piece {
 
-    @Override
+    /*@Override
     public void move(int file, int rank) {
 
-    }
+    }*/
 
     @Override
     public boolean canMove(Board board) {

@@ -11,10 +11,10 @@ public class Rook extends Piece {
         _color = color;
     }
 
-    @Override
+    /*@Override
     public void move(int file, int rank) {
 
-    }
+    }*/
 
     @Override
     public boolean canMove(Board board) {
