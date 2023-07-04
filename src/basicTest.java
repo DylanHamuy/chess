@@ -1,8 +1,5 @@
 import chess.piece.Pawn;
 import org.junit.Test;
-
-import static org.apache.commons.lang3.reflect.TypeUtils.isInstance;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 

@@ -5,15 +5,24 @@ import chess.piece.*;
 
 public class Game {
 
+    /**
+     * Constructs a new Game object and starts a new game.
+     */
     public Game() {
         newGame();
     }
 
+    /**
+     * Starts a new game by initializing the board and setting up the pieces.
+     */
     public void newGame () {
         _board = new Board();
         setupPieces();
     }
 
+    /**
+     * Sets up the initial configuration of the chess pieces on the board.
+     */
     public void setupPieces() {
         Color pieceColor;
         // Set up pawns
@@ -68,13 +77,29 @@ public class Game {
         }
     }
 
+    /**
+     * Moves a chess piece from the specified original position to the specified destination position.
+     *
+     * @param origFile  The file (column) of the original position.
+     * @param origRank  The rank (row) of the original position.
+     * @param destFile  The file (column) of the destination position.
+     * @param destRank  The rank (row) of the destination position.
+     */
     public void move(int origFile, int origRank, int destFile, int destRank) {
+        // Get the piece at the original position
         Piece piece = _board.getTile(origFile, origRank).getPiece();
+        // Remove the piece from the original position
         _board.getTile(origFile, origRank).setPiece(null);
 
+        // Place the piece at the destination position
         _board.getTile(destFile, destRank).setPiece(piece);
     }
 
+    /**
+     * Retrieves the current state of the chess board.
+     *
+     * @return The chess board.
+     */
     public Board getBoard(){
         return _board;
     }
