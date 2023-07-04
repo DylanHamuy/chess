@@ -11,9 +11,11 @@ public class chesswindow extends Frame {
 
     private static final String _CWD = System.getProperty("user.dir");
     private static final String _ASSETS = _CWD + "/assets/";
-    private static final String _README = _CWD + "/src/README.txt";
+    private static final String _README = _CWD + "/src/helpDoc.txt";
 
     private static final ImageIcon _ICON = new ImageIcon(_ASSETS + "/icon.png");
+
+    private static Graphics _GRAPHICS;
 
     private static final String[] _MOVECOLNAMES = {"#", "White", "Black"};
 
@@ -107,6 +109,9 @@ public class chesswindow extends Frame {
 
     private static int _DEPTH = 10;
 
+    /** White move = 0, black move = 1 */
+    private int _WHOMOVE = 1;
+
     public chesswindow(int dimX, int dimY) {
         _DIMX = dimX;
         _DIMY = dimY;
@@ -123,7 +128,42 @@ public class chesswindow extends Frame {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu gameMenu = new JMenu("Game");
-        gameMenu.add(new JMenuItem("**SAMPLE**"));
+
+        JMenuItem moveString = new JMenuItem(new AbstractAction("Move") {class moveWindow {
+            public moveWindow() {
+                JFrame moveFrame = new JFrame("Enter Move");
+                moveFrame.setSize(_DIMX / 2, _DIMY / 2);
+                moveFrame.setResizable(false);
+                moveFrame.setLocation(((int) windowSize.getWidth()) / 2 - _DIMX / 4,
+                        ((int) windowSize.getHeight()) / 2 - _DIMY / 4);
+                moveFrame.setIconImage(_ICON.getImage());
+
+                JTextField inputString = new JTextField(5);
+
+                JButton confirm = new JButton("Confirm");
+                confirm.addActionListener(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println(inputString.getText());
+                        move(inputString.getText());
+                        moveFrame.dispose();
+                    }
+                });
+
+                JPanel storage = new JPanel(new BorderLayout());
+                storage.add(inputString, BorderLayout.PAGE_START);
+                storage.add(confirm, BorderLayout.PAGE_END);
+
+                moveFrame.add(storage);
+                moveFrame.setVisible(true);
+                }
+            }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new moveWindow();
+            }
+        });
+        gameMenu.add(moveString);
 
         JMenu viewMenu = new JMenu("View");
         viewMenu.add(new JMenuItem("**SAMPLE**"));
@@ -218,37 +258,11 @@ public class chesswindow extends Frame {
 
         // https://cutechess.com/cutechess.png
         JPanel main = new JPanel() {
-            Color primaryColor = new Color(207, 138, 70);
-            Color altColor = new Color(253, 204, 157);
-            boolean alt = true;
             @Override
             protected void paintComponent(Graphics g) {
+                _GRAPHICS = g;
                 super.paintComponent(g);
-                for (int i = 0; i < _DIMX / 2; i += _DIMX / 16) {
-                    alt = !alt;
-                    for (int j = 0; j < _DIMY / 2; j += _DIMY / 16) {
-                        if (alt) { g.setColor(altColor); } else { g.setColor(primaryColor); }
-                        g.fillRect(i, j, _DIMX / 16, _DIMY / 16);
-                        alt = !alt;
-                    }
-                }
-                for (String pieceNum : _PIECES.keySet()) {
-                    String location = _PIECES.get(pieceNum);
-                    int row = (_DIMY / 2) - ((_DIMY / 16) * (location.charAt(0) - 96));
-                    int col = ((_DIMX / 16) * (location.charAt(1) - 49));
-
-                    String imageName = pieceNum.substring(0, 2);
-                    Image img = null;
-                    try {
-                        if (imageName.charAt(1) == 'k' && pieceNum.length() == 3) {
-                            imageName = imageName.concat("n");
-                        }
-                        img = ImageIO.read(new File(_ASSETS + imageName + ".png"));
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    g.drawImage(img, col, row, _DIMX / 16, _DIMY / 16, null);
-                }
+                paintPieces();
             }
 
             @Override
@@ -308,5 +322,47 @@ public class chesswindow extends Frame {
         frame.getContentPane().add(moveScroll, BorderLayout.LINE_END);
         frame.getContentPane().add(debug, BorderLayout.PAGE_END);
         frame.setVisible(true);
+    }
+
+    private void paintPieces() {
+        Color primaryColor = new Color(207, 138, 70);
+        Color altColor = new Color(253, 204, 157);
+        boolean alt = true;
+        for (int i = 0; i < _DIMX / 2; i += _DIMX / 16) {
+            alt = !alt;
+            for (int j = 0; j < _DIMY / 2; j += _DIMY / 16) {
+                if (alt) { _GRAPHICS.setColor(altColor); } else { _GRAPHICS.setColor(primaryColor); }
+                _GRAPHICS.fillRect(i, j, _DIMX / 16, _DIMY / 16);
+                alt = !alt;
+            }
+        }
+        for (String pieceNum : _PIECES.keySet()) {
+            String location = _PIECES.get(pieceNum);
+            int row = (_DIMY / 2) - ((_DIMY / 16) * (location.charAt(0) - 96));
+            int col = ((_DIMX / 16) * (location.charAt(1) - 49));
+
+            String imageName = pieceNum.substring(0, 2);
+            Image img = null;
+            try {
+                if (imageName.charAt(1) == 'k' && pieceNum.length() == 3) {
+                    imageName = imageName.concat("n");
+                }
+                img = ImageIO.read(new File(_ASSETS + imageName + ".png"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            _GRAPHICS.drawImage(img, col, row, _DIMX / 16, _DIMY / 16, null);
+        }
+    }
+
+    private void move(String move) {
+        //TODO as Dylan fins his part
+        if (_WHOMOVE == 0) {
+            _MOVEDATACNT ++;
+            Object[] temp = {"" + _MOVEDATACNT, move, ""};
+        } else {
+            _MOVEDATA[_MOVEDATACNT - 1][2] = move;
+        }
+        paintPieces();
     }
 }
