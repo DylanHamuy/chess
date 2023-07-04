@@ -16,7 +16,10 @@ public class Tile {
         } else {
             COLOR = Color.BLACK;
         }
+
+
         _hasPiece = false;
+        _piece = null;
     }
 
     public void setPiece(Piece piece) {

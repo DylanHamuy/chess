@@ -6,8 +6,8 @@ public class Board {
 
     public Board() {
         _board = new Tile[8][8];
-        for (int file = 0; file < 8; file++){
-            for (int rank = 0; rank < 8; rank++){
+        for (int file = 0; file < 8; file++) {
+            for (int rank = 0; rank < 8; rank++) {
                 _board[file][rank] = new Tile(file, rank);
             }
         }
