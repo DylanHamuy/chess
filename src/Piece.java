@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 /**
  * the first three bits of binary represent the piece
  * the last two bits of binary represent the color
@@ -13,4 +15,5 @@ public class Piece {
 
     public static final int WHITE = 8;
     public static final int BLACK = 16;
+
 }
